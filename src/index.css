@@ -1,37 +1,395 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* === Light SaaS Palette === */
+    --background: 220 20% 97%;
+    --foreground: 222 47% 11%;
+
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --popover-foreground: 222 47% 11%;
+
+    /* Indigo/violet primary */
+    --primary: 245 75% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 20% 94%;
+    --secondary-foreground: 222 47% 20%;
+
+    --muted: 220 20% 94%;
+    --muted-foreground: 220 13% 46%;
+
+    --accent: 245 75% 95%;
+    --accent-foreground: 245 75% 45%;
+
+    --destructive: 358 72% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 245 75% 55%;
+
+    --radius: 0.625rem;
+
+    /* Sidebar */
+    --sidebar-bg: 0 0% 100%;
+    --sidebar-border: 220 15% 90%;
+    --sidebar-width: 232px;
+
+    /* Gradient tokens */
+    --indigo: 245 75% 55%;
+    --violet: 265 70% 58%;
+
+    /* Elevation shadows */
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.05);
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
   body {
     @apply bg-background text-foreground;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: hsl(245 75% 55% / 0.15);
+    color: hsl(245 75% 40%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(220 15% 82%);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(220 15% 70%);
+  }
+}
+
+@layer components {
+
+  /* ── Sidebar nav item ── */
+  .nav-item {
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 w-full;
+    color: hsl(220 13% 46%);
+  }
+
+  .nav-item:hover {
+    background: hsl(220 20% 94%);
+    color: hsl(222 47% 14%);
+  }
+
+  .nav-item.active {
+    background: hsl(245 75% 55% / 0.08);
+    color: hsl(245 75% 50%);
+    font-weight: 600;
+  }
+
+  .nav-item.active .nav-icon {
+    color: hsl(245 75% 52%);
+  }
+
+  /* ── Stat card ── */
+  .stat-card {
+    background: white;
+    border: 1px solid hsl(220 15% 91%);
+    border-radius: 0.875rem;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-xs);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  /* ── Subtle left-border accent on stat card ── */
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: var(--card-accent, hsl(245 75% 55%));
+  }
+
+  /* ── Premium table ── */
+  .erp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .erp-table thead th {
+    padding: 0.625rem 1rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: hsl(220 13% 52%);
+    background: hsl(220 20% 97%);
+    border-bottom: 1px solid hsl(220 15% 90%);
+  }
+
+  .erp-table thead th:first-child { border-radius: 0; }
+
+  .erp-table tbody tr {
+    border-bottom: 1px solid hsl(220 15% 93%);
+    transition: background 0.1s;
+  }
+
+  .erp-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .erp-table tbody tr:hover {
+    background: hsl(245 75% 55% / 0.03);
+  }
+
+  .erp-table tbody td {
+    padding: 0.75rem 1rem;
+    color: hsl(222 47% 14%);
+    vertical-align: middle;
+  }
+
+  /* ── Status badge base ── */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-radius: 100px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .status-badge.success {
+    background: hsl(142 60% 45% / 0.1);
+    color: hsl(142 60% 35%);
+    border: 1px solid hsl(142 60% 45% / 0.2);
+  }
+
+  .status-badge.danger {
+    background: hsl(358 72% 52% / 0.08);
+    color: hsl(358 72% 42%);
+    border: 1px solid hsl(358 72% 52% / 0.18);
+  }
+
+  .status-badge.warning {
+    background: hsl(38 90% 50% / 0.1);
+    color: hsl(38 90% 30%);
+    border: 1px solid hsl(38 90% 50% / 0.2);
+  }
+
+  .status-badge.info {
+    background: hsl(245 75% 55% / 0.08);
+    color: hsl(245 75% 45%);
+    border: 1px solid hsl(245 75% 55% / 0.18);
+  }
+
+  /* ── Shimmer skeleton ── */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(220 20% 92%) 0%,
+      hsl(220 20% 96%) 50%,
+      hsl(220 20% 92%) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+    border-radius: 0.375rem;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ── Page entry animation ── */
+  .page-enter {
+    animation: fadeSlideUp 0.2s ease forwards;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Gradient button ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: hsl(245 75% 55%);
+    color: white;
+    border: none;
+    border-radius: 0.625rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+    box-shadow: 0 1px 3px hsl(245 75% 55% / 0.35);
+  }
+
+  .btn-primary:hover {
+    background: hsl(245 75% 48%);
+    box-shadow: 0 4px 12px hsl(245 75% 55% / 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px hsl(245 75% 55% / 0.3);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ── Ghost / outline button ── */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: white;
+    color: hsl(222 47% 18%);
+    border: 1px solid hsl(220 15% 88%);
+    border-radius: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .btn-ghost:hover {
+    background: hsl(220 20% 97%);
+    border-color: hsl(220 15% 80%);
+  }
+
+  .btn-ghost:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* ── Danger button ── */
+  .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: hsl(358 72% 52% / 0.08);
+    color: hsl(358 72% 42%);
+    border: 1px solid hsl(358 72% 52% / 0.2);
+    border-radius: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+
+  .btn-danger:hover {
+    background: hsl(358 72% 52% / 0.14);
+  }
+
+  /* ── Premium input ── */
+  .erp-input {
+    width: 100%;
+    background: white;
+    border: 1px solid hsl(220 15% 88%);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: hsl(222 47% 11%);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: var(--shadow-xs);
+    font-family: inherit;
+  }
+
+  .erp-input::placeholder {
+    color: hsl(220 13% 62%);
+  }
+
+  .erp-input:focus {
+    border-color: hsl(245 75% 55% / 0.6);
+    box-shadow: 0 0 0 3px hsl(245 75% 55% / 0.1);
+  }
+
+  /* ── Connection status dot ── */
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-dot.online {
+    background: hsl(142 60% 42%);
+    box-shadow: 0 0 0 0 hsl(142 60% 42% / 0.4);
+    animation: pulse-online 2.5s infinite;
+  }
+
+  .status-dot.offline {
+    background: hsl(358 72% 52%);
+  }
+
+  .status-dot.checking {
+    background: hsl(38 90% 50%);
+    animation: pulse-checking 1s infinite;
+  }
+
+  @keyframes pulse-online {
+    0%   { box-shadow: 0 0 0 0 hsl(142 60% 42% / 0.4); }
+    60%  { box-shadow: 0 0 0 5px hsl(142 60% 42% / 0); }
+    100% { box-shadow: 0 0 0 0 hsl(142 60% 42% / 0); }
+  }
+
+  @keyframes pulse-checking {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
   }
 }
